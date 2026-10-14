@@ -35,6 +35,9 @@ library(here)
 # A list of column names are provided to use:
 
 col_names  <-  c("trial_num","speed_actual","speed_response","correct")
+getwd()
+ds1 <- read_tsv(here("data_A", "6191_1.txt"), skip = 7, col_names = col_names)
+
 
 # ANSWER
 
@@ -44,6 +47,7 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # Create a new column in ds1 that takes trial_num and adds 100
 
 # ANSWER
+ds1$trial_num_100 <- ds1$trial_num + 100
 
 
 ### QUESTION 3b. ----- 
@@ -53,7 +57,11 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # Add one commend explaining your naming choice
 
 # ANSWER
-
+if (!dir.exists(here("data_A_cleaned"))) dir.create(here("data_A_cleaned"))
+write.csv(ds1, here("data_A_cleaned", "6191_1_cleaned.csv"))
+getwd()
+#I used the snake_Case with no spaced for this code as it keeps the code easy to type, read, is efficient 
+#and finally it is safe to use in R 
 
 ### QUESTION 4 ----- 
 
@@ -61,14 +69,14 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # Store it to a variable
 
 # ANSWER
-
+fnames <- list.files(here("data_A"), full.names = TRUE)
 
 ### QUESTION 5 ----- 
 
 # Read all of the files in data_A into a single tibble called ds
 
 # ANSWER
-
+ds <- read_tsv(fnames, skip = 7, col_names = col_names)
 
 ### QUESTION 6 -----
 
@@ -101,3 +109,10 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 
 # ANSWER
 
+library(readxl)
+
+participant <- read_excel(here("data_B", "participant_info.xlsx"), sheet = "participant")
+
+
+testdate <- read_excel(here("data_B", "participant_info.xlsx"), sheet = "testdate",
+                       col_names = c("participant", "test_date"))
